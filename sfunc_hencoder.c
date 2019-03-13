@@ -26,7 +26,7 @@
  * | See matlabroot/simulink/src/sfuntmpl_doc.c for a more detailed template |
  *  ------------------------------------------------------------------------- 
  *
- * Created: Wed Mar 13 08:33:37 2019
+ * Created: Wed Mar 13 09:05:58 2019
  */
 
 #define S_FUNCTION_LEVEL 2
@@ -72,7 +72,7 @@
 #define IN_PORT_2_NAME        cntperrot
 #define INPUT_2_WIDTH         1
 #define INPUT_DIMS_2_COL      1
-#define INPUT_2_DTYPE         int16_T
+#define INPUT_2_DTYPE         uint16_T
 #define INPUT_2_COMPLEX       COMPLEX_NO
 #define IN_2_FRAME_BASED      FRAME_NO
 #define IN_2_BUS_BASED        0
@@ -108,7 +108,7 @@
 #define OUT_PORT_0_NAME       pos
 #define OUTPUT_0_WIDTH        1
 #define OUTPUT_DIMS_0_COL     1
-#define OUTPUT_0_DTYPE        int16_T
+#define OUTPUT_0_DTYPE        real_T
 #define OUTPUT_0_COMPLEX      COMPLEX_NO
 #define OUT_0_FRAME_BASED     FRAME_NO
 #define OUT_0_BUS_BASED       0
@@ -160,16 +160,16 @@
 
 extern void sfunc_hencoder_Outputs_wrapper(const uint8_T *pinA,
 			const uint8_T *pinB,
-			const int16_T *cntperrot,
+			const uint16_T *cntperrot,
 			const uint16_T *sampletime,
-			int16_T *pos,
+			real_T *pos,
 			real_T *rpm,
 			const real_T *xD);
 extern void sfunc_hencoder_Update_wrapper(const uint8_T *pinA,
 			const uint8_T *pinB,
-			const int16_T *cntperrot,
+			const uint16_T *cntperrot,
 			const uint16_T *sampletime,
-			int16_T *pos,
+			real_T *pos,
 			real_T *rpm,
 			real_T *xD);
 /*====================*
@@ -214,7 +214,7 @@ static void mdlInitializeSizes(SimStruct *S)
 
     /* Input Port 2 */
     ssSetInputPortWidth(S, 2, INPUT_2_WIDTH);
-    ssSetInputPortDataType(S, 2, SS_INT16);
+    ssSetInputPortDataType(S, 2, SS_UINT16);
     ssSetInputPortComplexSignal(S, 2, INPUT_2_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 2, INPUT_2_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 2, 1); /*direct input signal access*/
@@ -230,7 +230,7 @@ static void mdlInitializeSizes(SimStruct *S)
     if (!ssSetNumOutputPorts(S, NUM_OUTPUTS)) return;
     /* Output Port 0 */
     ssSetOutputPortWidth(S, 0, OUTPUT_0_WIDTH);
-    ssSetOutputPortDataType(S, 0, SS_INT16);
+    ssSetOutputPortDataType(S, 0, SS_DOUBLE);
     ssSetOutputPortComplexSignal(S, 0, OUTPUT_0_COMPLEX);
     /* Output Port 1 */
     ssSetOutputPortWidth(S, 1, OUTPUT_1_WIDTH);
@@ -313,9 +313,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 {
     const uint8_T *pinA = (uint8_T *) ssGetInputPortRealSignal(S, 0);
     const uint8_T *pinB = (uint8_T *) ssGetInputPortRealSignal(S, 1);
-    const int16_T *cntperrot = (int16_T *) ssGetInputPortRealSignal(S, 2);
+    const uint16_T *cntperrot = (uint16_T *) ssGetInputPortRealSignal(S, 2);
     const uint16_T *sampletime = (uint16_T *) ssGetInputPortRealSignal(S, 3);
-    int16_T *pos = (int16_T *) ssGetOutputPortRealSignal(S, 0);
+    real_T *pos = (real_T *) ssGetOutputPortRealSignal(S, 0);
     real_T *rpm = (real_T *) ssGetOutputPortRealSignal(S, 1);
     const real_T *xD = ssGetDiscStates(S);
 
@@ -336,9 +336,9 @@ static void mdlUpdate(SimStruct *S, int_T tid)
 {
     const uint8_T *pinA = (uint8_T *) ssGetInputPortRealSignal(S, 0);
     const uint8_T *pinB = (uint8_T *) ssGetInputPortRealSignal(S, 1);
-    const int16_T *cntperrot = (int16_T *) ssGetInputPortRealSignal(S, 2);
+    const uint16_T *cntperrot = (uint16_T *) ssGetInputPortRealSignal(S, 2);
     const uint16_T *sampletime = (uint16_T *) ssGetInputPortRealSignal(S, 3);
-    int16_T *pos = (int16_T *) ssGetOutputPortRealSignal(S, 0);
+    real_T *pos = (real_T *) ssGetOutputPortRealSignal(S, 0);
     real_T *rpm = (real_T *) ssGetOutputPortRealSignal(S, 1);
     real_T *xD = ssGetDiscStates(S);
 

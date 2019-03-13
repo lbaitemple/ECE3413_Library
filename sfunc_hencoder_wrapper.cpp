@@ -70,9 +70,9 @@ void A_CHANGE() {                                     //Interrupt function to re
  */
 extern "C" void sfunc_hencoder_Outputs_wrapper(const uint8_T *pinA,
 			const uint8_T *pinB,
-			const int16_T *cntperrot,
+			const uint16_T *cntperrot,
 			const uint16_T *sampletime,
-			int16_T *pos,
+			real_T *pos,
 			real_T *rpm,
 			const real_T *xD)
 {
@@ -112,9 +112,9 @@ if (xD[0]==1) {
  */
 extern "C" void sfunc_hencoder_Update_wrapper(const uint8_T *pinA,
 			const uint8_T *pinB,
-			const int16_T *cntperrot,
+			const uint16_T *cntperrot,
 			const uint16_T *sampletime,
-			int16_T *pos,
+			real_T *pos,
 			real_T *rpm,
 			real_T *xD)
 {
